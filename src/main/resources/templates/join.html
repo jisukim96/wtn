@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/login.css">
+	<!-- 파비콘 -->
+    <link rel="icon" type="image/png" href="/img/icons8-enter-key-50.png"/>
+    
+    <!--폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;800&display=swap" rel="stylesheet">
+
+    
+    <title>회원가입 페이지</title>
+</head>
+<body>
+    <header>
+        <div id="sub-logo"><a href="/">
+                <h2>whats the next</h2>
+            </a></div>
+
+    </header>
+    <section class="login-form">
+        <h1>JOIN</h1>
+        <form th:action="@{/user/inroll}" method ="post" th:object="${siteUsersForm}">
+            <div th:if="${#fields.hasAnyErrors()}" class="int-area">
+            <div style="color:red;" th:each = "err:${#fields.allErrors}" th:text="${err}"></div>
+            </div>
+            <div class="int-area">
+                <input type="text" th:field="*{userId}" autocomplete="off" required>
+                <label for="userId">USER EMAIL</label>
+            </div>
+            <div class="int-area">
+                <input type="text" th:field="*{name}" autocomplete="off" required>
+                <label for="name">NICKNAME</label>
+            <div class="int-area">
+                <input type="password" th:field="*{pass1}" autocomplete="off" required>
+                <label for="pass1">PASSWORD</label>
+            </div>
+            <div class="int-area">
+                <input  type="password" th:field="*{pass2}" autocomplete="off" required>
+                <label for="pass2">PASSWORD CHECK</label>
+            </div>
+                <button id="btn" type="submit">LOGIN</button>
+            </div>
+        </form>
+
+    </section>
+    
+ 
+    <script>/*인풋값 없을 때 문구가 떨리는 애니메이션효과 */
+        let id = document.querySelector('#userId')
+        let name = document.querySelector('#name')
+        let pw1 = document.querySelector('#pass1')
+        let pw2 = document.querySelector('#pass2')
+        let btn = document.querySelector('#btn')
+
+        btn.addEventListener('click',() => {
+            if(id.value == ""){
+                label = id.nextElementSibling
+                label.classList.add('warning')
+                setTimeout(() => {label.classList.remove('warning')},1500)
+            }else if(name.value == ""){
+                label = name.nextElementSibling
+                label.classList.add('warning')
+                setTimeout(() =>{label.classList.remove('warning')},1500)
+            }else if(pw1.value == ""){
+                label = pw1.nextElementSibling
+                label.classList.add('warning')
+                setTimeout(() =>{label.classList.remove('warning')},1500)
+            }else if(pw2.value == ""){
+                label = pw2.nextElementSibling
+                label.classList.add('warning')
+                setTimeout(() =>{label.classList.remove('warning')},1500)
+            }
+        })
+
+    </script>
+</body>
+</html>

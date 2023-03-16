@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<header th:fragment="headerfragment">
+        <div id="sub-logo"><a href="/">
+                <h2>whats the next</h2>
+            </a></div>
+        <div id="sub-login">        <ul sec:authorize="isAuthenticated()" class="navbar_login">
+            <li class="login"><a th:href="@{/user/logout}">Logout</a></li>
+        </ul>
+        <ul sec:authorize="isAnonymous()" class="navbar_login">
+            <li class="login"><a href="/user/login">Login</a></li>
+        </ul></div>
+
+    </header>
+</html>

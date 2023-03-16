@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" href="/css/main_nav+section1.css">
+    <link rel="stylesheet" href="/css/main_section_o.css">
+    <link rel="stylesheet" href="/css/main_slide.css">
+    <!-- 파비콘 -->
+    <link rel="icon" type="image/png" href="/img/icons8-enter-key-50.png"/>
+    <!--폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;800&display=swap" rel="stylesheet">
+    <!--아이콘-->
+    <script src="https://kit.fontawesome.com/c1b69d0d69.js" crossorigin="anonymous"></script>
+
+    <title>메인페이지</title>
+
+    <script>
+        window.onload = popularMovie();
+
+        function popularMovie(){
+            var xhttp,jsons;
+
+            xhttp = new XMLHttpRequest();   //XMLHttpRequest 객체를 생성
+            jsons="";
+
+            xhttp.onreadystatechange = function(){  //onreadystatechange 이벤트 핸들러를 작성, 
+                //서버상에 문서가 존재하고 요청한 데이터의 처리가 완료되어 응답할 준비가 되었을 때
+                if(this.readyState==4 && this.status==200){ 
+                    jsons= JSON.parse(xhttp.responseText);
+                    console.log(jsons);
+                    console.log();
+                    innerHtmlString=""
+
+                    for(let i = 0 ; i < jsons.results.length ; i++){
+                        //키 값 : 밸류 값 
+                        //키 값이 "poster_path"인 요소의 밸류 값을 가져와
+                        //이미지 URI와 포스터 패스를 합해 "imgpath"에 넣어준다. 
+                        imgpath = "https://www.themoviedb.org/t/p/w220_and_h330_face/"+jsons.results[i].poster_path;
+
+                        //poster정보에 imgpath 객체를 넣는다.
+                        innerHtmlString +="<a href='/movie/detail/"+jsons.results[i].id+"'><img src='"+imgpath+"'alt= '범죄도시2' class='pic1' style='width: 240px; height: 360px; border-radius: 15px;'></a>";
+                    }
+
+                    document.getElementById('popular').innerHTML=innerHtmlString; //id 
+                    console.log("통신성공");
+                }
+                
+            };
+            xhttp.open("GET","https://api.themoviedb.org/3/movie/popular?api_key=0935dcc0a2f77071d65185178642a10d&language=ko&page=1",true); //비동기식(asynchronous) 요청
+            xhttp.send();
+            
+        }
+        
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar">
+         <ul sec:authorize="isAuthenticated()" class="navbar_login">
+            <li class="login"><a th:href="@{/user/logout}">Logout</a></li>
+        </ul>
+        <ul sec:authorize="isAnonymous()" class="navbar_login">
+            <li class="login"><a href="/user/login">Login</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="sec1"> <!--로고-->
+            <div class="logobox">
+                <h1 class="main_logo">whats the next</h1>
+            </div>
+            <!--검색창-->
+            <div class="main_seachbar">
+                <img src="img/icons8-hierarchy-50.png" class="popup" onclick="location.href='category_newpage.html'" style="height: 20px; width: 20px;">
+                <input id="write" type="search" placeholder="찾고있는 컨텐츠가 있으신가요?" >
+                <input type= "button" class="enter-icon" style="height: 20px;"><a href="/search">
+	               <img src="img/icons8-enter-key-50.png" class="enter-icon" style="height: 20px;"></a>
+
+            </div>
+
+        </section>
+            <!-- 작품이미지 링크복사 스크롤기능 구현-->
+            <section class="sec2">
+                <div class="update">현재 인기 영화</div>
+                <div class="slidebox">
+                    <input type="radio" name="slide" id="slide01" checked>
+                    <input type="radio" name="slide" id="slide02">
+                    <input type="radio" name="slide" id="slide03">
+                    <input type="radio" name="slide" id="slide04">
+                    <ul class="slidelist">
+                        <li class="slideitem">
+                            <div id="popular"></div> <!-- 테스트 -->
+                            <!-- <a href="sub-The_Roundup.html"><img src="https://image.tving.com/upload/cms/caim/CAIM2100/M000368397.jpg/dims/resize/F_webp,480"
+                                alt= "범죄도시2" class="pic1" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5712%2F2022%2F12%2F22%2F0000157541_001_20221222094803068.jpg&type=sc960_832"
+                                alt="더글로리" class="pic2" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2023/PRG_S01_P463606002-Vertical_LogoY_w720_h1080_q75.jpg"
+                                alt= "법쩐" class="pic3" style="width: 240px; height: 360px; border-radius: 15px;">
+                            <a href="sub-Alchemy_of_souls.html"><img src="http://img.lifestyler.co.kr/uploads/program/seditor/2022/11/f638047447605696112.jpg"
+                                alt= "환혼" class="pic4" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                             -->
+                        </li>
+                        <li class="slideitem">
+
+                            <!-- <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001682443.jpg/dims/resize/F_webp,400"
+                                alt="두발로티켓팅" class="pic5" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="sub-RunningMan.html"><img src="https://img.wavve.com/BMS/TVProgram/2022/PRG_S01_V0000330171-Vertical_LogoY-RE_w720_h1080_q75.jpg"
+                                alt= "런닝맨" class="pic6" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTBfMjU5%2FMDAxNjcwNjY3MTMyOTMw.UMWEWIRAUSGiA60ABhBQE48qgj5cPHfcPa9YFEULuhQg.ERvqTRf7U3Lnqqhfg6LIlQnd0UsEu7c5e7xgv3HWSCwg.JPEG.jinhwan1016%2F%25C0%25A2%25C1%25EE%25B5%25A5%25C0%25CC.jpg&type=sc960_832"
+                                alt="웬즈데이" class="pic7" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2018/08/16/ZM28IoyFMh9B636700271264939683.jpg"
+                                alt= "유퀴즈" class="pic8" style="width: 240px; height: 360px; border-radius: 15px;"></a> -->
+                        </li>
+                        <li class="slideitem">
+                            <!-- <a href="#"><img src="https://fs.jtbc.co.kr/prog/drama/theinterestoflove/Img/site/ProgInfo/202212120627121220.jpg"
+                                alt="사랑의이해" class="pic5" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001479830.png/dims/resize/F_webp,480"
+                                alt="슬기로운의사생활" class="pic6" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001654042.jpg/dims/resize/F_webp,480"
+                                alt="체인소맨" class="pic7" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTBfMjU5%2FMDAxNjcwNjY3MTMyOTMw.UMWEWIRAUSGiA60ABhBQE48qgj5cPHfcPa9YFEULuhQg.ERvqTRf7U3Lnqqhfg6LIlQnd0UsEu7c5e7xgv3HWSCwg.JPEG.jinhwan1016%2F%25C0%25A2%25C1%25EE%25B5%25A5%25C0%25CC.jpg&type=sc960_832"
+                                alt="웬즈데이" class="pic8" style="width: 240px; height: 360px; border-radius: 15px;"></a> -->
+                        </li>
+                        <li class="slideitem">
+                            <!-- <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2022/PRG_CR02_DN0000000187_Vertical_LogoY_w720_h1080_q75.jpg"
+                                alt="슬램덩크" class="pic5" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://image.tving.com/upload/cms/caim/CAIM2100/M000370011.jpg/dims/resize/F_webp,480"
+                                alt="공조2" class="pic6" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2023/PRG_C9901_C99000000104-Vertical_LogoY_WOriginal_07_w720_h1080_q75.jpg"
+                                alt="좋아하면울리는" class="pic7" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                            <a href="#"><img src="https://img.wavve.com/BMS/TVSeason/2022/M_T40888G-Vertical_LogoY_w720_h1080_q75.jpg"
+                                alt="심야괴담회" class="pic8" style="width: 240px; height: 360px; border-radius: 15px;"> </a> --> 
+                        </li>
+                        
+                    </ul>
+                    <div class="slide-control">
+                        <div class="control01">
+                            <label for="slide04" class="prev"></label>
+                            <label for="slide02" class="next"></label>
+                        </div>
+                        <div class="control02">
+                            <label for="slide01" class="prev"></label>
+                            <label for="slide03" class="next"></label>
+                        </div>
+                        <div class="control03">
+                            <label for="slide02" class="prev"></label>
+                            <label for="slide04" class="next"></label>
+                        </div>
+                        <div class="control04">
+                            <label for="slide03" class="prev"></label>
+                            <label for="slide01" class="next"></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="sec3">
+                <div class="popu">NETFLIX 인기작품</div>
+                <a href="#"><img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5712%2F2022%2F12%2F22%2F0000157541_001_20221222094803068.jpg&type=sc960_832"
+                    alt="더글로리" class="pic1" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001479830.png/dims/resize/F_webp,480"
+                    alt="슬기로운의사생활" class="pic2" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001654042.jpg/dims/resize/F_webp,480"
+                    alt="체인소맨" class="pic3" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTBfMjU5%2FMDAxNjcwNjY3MTMyOTMw.UMWEWIRAUSGiA60ABhBQE48qgj5cPHfcPa9YFEULuhQg.ERvqTRf7U3Lnqqhfg6LIlQnd0UsEu7c5e7xgv3HWSCwg.JPEG.jinhwan1016%2F%25C0%25A2%25C1%25EE%25B5%25A5%25C0%25CC.jpg&type=sc960_832"
+                    alt="웬즈데이" class="pic4" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+            </section>
+            <section class="sec4">
+                <div class="popu">WAVVE 인기작품</div>
+                <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2022/PRG_M_1004711100000100000-Vertical_LogoY-RE-RE_w720_h1080_q75.jpg"
+                    alt="놀면뭐하니" class="pic1" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2023/PRG_S01_P463606002-Vertical_LogoY_w720_h1080_q75.jpg"
+                    alt="법쩐" class="pic2" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2022/PRG_C9901_C99000000101-Vertical_LogoY_WOriginal_RE_w720_h1080_q75.jpg"
+                    alt="약한영웅" class="pic3" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://img.wavve.com/BMS/TVProgram/2022/PRG_CR02_DN0000000187_Vertical_LogoY_w720_h1080_q75.jpg"
+                    alt="슬램덩크" class="pic4" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+            </section>
+            <section class="sec5">
+                <div class="popu">TVING 인기작품</div>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001682443.jpg/dims/resize/F_webp,400"
+                    alt="두발로티켓팅" class="pic1" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001651316.jpg/dims/resize/F_webp,480"
+                    alt="술꾼도시여자들2" class="pic2" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001665114.jpg/dims/resize/F_webp,400"
+                    alt="아일랜드" class="pic3" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+                <a href="#"><img src="https://image.tving.com/upload/cms/caip/CAIP0900/P001623861.jpg/dims/resize/F_webp,400"
+                    alt="보물찾기" class="pic4" style="width: 240px; height: 360px; border-radius: 15px;"></a>
+            </section>
+    </main>
+
+</body>
+</html>

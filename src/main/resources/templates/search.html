@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/main_nav+section1.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+	integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+	crossorigin="anonymous">
+	
+</script>
+<style>	body{color: #f1f1f1;}</style>
+<title>검색 결과</title>
+</head>
+
+<body>
+
+	<form id="search-form">
+		<input type="text" id="search-input" placeholder="Search for movies">
+		<button type="submit">Search</button>
+	</form>
+
+	<div id="search-results">
+		영화 검색 결과
+	</div>
+</body>
+<script>
+	var apiKey = '0935dcc0a2f77071d65185178642a10d';
+
+	$('#search-form').submit(
+			function(event) {
+				event.preventDefault();
+				var query = $('#search-input').val();
+				var url =  'https://api.themoviedb.org/3/search/movie?api_key=' + apiKey + '&language=ko&query=' + encodeURIComponent(query)+'&region=KR';
+
+				$.ajax({
+					url : url,
+					type : 'GET',
+					dataType : 'json',
+					success : function(response) {
+						var $results = $('<div>');
+
+						$.each(response.results, function(index, movie) {
+							var $movie = $('<div>');
+							var $title = $('<h2>').text(movie.title);
+							var $overview = $('<p>').text(movie.overview);
+
+							$movie.append($title).append($overview);
+							$results.append($movie);
+						});
+
+						$('#search-results').empty().append($results);
+					},
+
+					error : function(xhr, status, error) {
+						console.log('Error:', error);
+					}
+				});
+			});
+</script>
+</html>

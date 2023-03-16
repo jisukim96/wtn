@@ -1,0 +1,117 @@
+<html layout:decorate="~{layout}">
+
+<head>
+	
+    <meta name="movie_id" th:content="${id}"/>
+    
+    <link rel="stylesheet" href="/css/sub.css">
+    <link rel="stylesheet" href="/css/sub_header.css">
+    <title>영화 페이지</title>
+
+</head>
+
+    <!--서브페이지 헤더 끝-->
+    <div layout:fragment="content">
+
+    <main class="sub-main2 mains">
+        <!--포스터제목소개-->
+        <div id="poster">
+            <img id="poster_img" src="">
+        </div>
+        <div id="title_box">
+            <h1 id="title"></h1>
+        </div>
+        <div id="intro">
+        </div>
+        <div id="분류">
+            <table>
+                <tr>
+                    <td>개봉일</td>
+                    <td ><div id="release_date">개봉일출력</div></td>
+                </tr>
+                <tr>
+                    <td>장르</td>
+                    <td id="genres">서스펜스,드라마</td>
+                </tr>
+                <tr>
+                    <td>러닝타임</td>
+                    <td id="runtime">106분</td>
+                </tr>
+                <tr>
+                    <td id="creater">연출진</td>
+                    <td > 짱짱맨 </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    <main class="sub-main3 mains">
+        <!--출연자+볼수있는 사이트-->
+        <!--<div id="cast"></div>
+        <div id="cast">
+            <h3>감독/출연</h3>
+        </div>
+                <div id="con-site">
+                    <h3>어디에서 볼 수 있을까?</h3>
+                </div>-->
+    </main>
+
+    <script>
+        moviedetail();
+        
+        function moviedetail(){
+            var xhttp,jsons;            
+            
+            xhttp = new XMLHttpRequest();   //XMLHttpRequest 객체를 생성
+            
+            var id = document.getElementsByTagName('meta')[3].getAttribute('content');
+           
+            jsons="";
+            idurl="https://api.themoviedb.org/3/tv/"+id+"?api_key=0935dcc0a2f77071d65185178642a10d&language=ko";
+			console.log(id);
+            xhttp.onreadystatechange = function(){  
+                if(this.readyState==4 && this.status==200){ 
+                    jsons= JSON.parse(xhttp.responseText);
+                    console.log(jsons);
+                    console.log(idurl);
+                    
+                        //포스터
+                        imgpath = "https://www.themoviedb.org/t/p/w220_and_h330_face"+jsons.poster_path;
+                    	document.getElementById('poster_img').src=imgpath; 
+                        
+                        //제목
+                    	title = jsons.title;
+                    	document.getElementById('title').innerHTML=title;  
+                        
+                        //영화설명
+                    	overview =jsons.overview;
+                    	document.getElementById('intro').innerHTML=overview; 
+
+                        // 장르
+//                      const genreNames = genres.map(genre => genre.name).join(', ');
+// 						document.getElementById('genres').textContent = genreNames;
+
+                        //개봉일
+                        release_date = jsons.release_date;
+                        document.getElementById('release_date').innerHTML=release_date;
+
+                        //러닝타임
+                        runningtime = jsons.runtime;
+                        document.getElementById('runtime').innerText=runningtime+"분";
+
+                        //연출
+//                       creater = jsons.created_by[0].name;
+//                       document.getElementById('creater').innerHTML=creater;
+                        
+                        // console.log(json.genres[0]);
+
+                    console.log("통신성공");
+                }
+                
+            };
+            xhttp.open("GET",idurl,true); //비동기식(asynchronous) 요청
+            xhttp.send();
+            
+        }
+        </script>
+            </div>
+</html>

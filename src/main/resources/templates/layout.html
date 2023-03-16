@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- detail CSS -->
+	<!-- 파비콘 -->
+    <link rel="icon" type="image/png" href="/img/icons8-enter-key-50.png"/>
+    <!--폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;800&display=swap" rel="stylesheet">
+	<!--아이콘-->
+    <script src="https://kit.fontawesome.com/c1b69d0d69.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<header th:replace="~{header::headerfragment}"></header>
+	
+    <th:block layout:fragment="content"></th:block>
+
+</body>
+</html>
